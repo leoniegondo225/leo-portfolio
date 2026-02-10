@@ -22,10 +22,20 @@ function validateContactData(data: any): data is ContactFormData {
   )
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function POST(request: NextRequest) {
   try {
+    // ✅ Vérification explicite de la clé
+    if (!process.env.RESEND_API_KEY) {
+      console.error("RESEND_API_KEY manquante")
+      return NextResponse.json(
+        { error: "Configuration serveur manquante" },
+        { status: 500 }
+      )
+    }
+
+    // ✅ Resend est créé ICI (runtime, pas build)
+    const resend = new Resend(process.env.RESEND_API_KEY)
+
     const data = await request.json()
 
     // Validation des données
@@ -41,9 +51,9 @@ export async function POST(request: NextRequest) {
 
     // Envoi de l'email via Resend
     const { data: emailData, error } = await resend.emails.send({
-      from: "Portfolio <onboarding@resend.dev>", // ⚠️ doit être validé dans ton compte Resend
-      to: "leoniegondo@gmail.com", // ⚠️ ton adresse pour recevoir les messages
-      replyTo: data.email, // si tu veux pouvoir répondre directement
+      from: "Portfolio <onboarding@resend.dev>", // OK pour tests
+      to: "leoniegondo@gmail.com",
+      replyTo: data.email,
       subject: `📩 Nouveau message de ${data.firstName} ${data.lastName}`,
       html: `
         <h2>Nouveau message via le formulaire de contact</h2>
@@ -58,7 +68,10 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("Erreur Resend:", error)
-      return NextResponse.json({ error: "Erreur lors de l'envoi d'email" }, { status: 500 })
+      return NextResponse.json(
+        { error: "Erreur lors de l'envoi d'email" },
+        { status: 500 }
+      )
     }
 
     return NextResponse.json(
@@ -67,6 +80,9 @@ export async function POST(request: NextRequest) {
     )
   } catch (error) {
     console.error("Erreur API contact:", error)
-    return NextResponse.json({ error: "Erreur serveur interne" }, { status: 500 })
+    return NextResponse.json(
+      { error: "Erreur serveur interne" },
+      { status: 500 }
+    )
   }
 }
