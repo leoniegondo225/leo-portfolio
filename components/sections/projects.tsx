@@ -6,6 +6,14 @@ import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github, Eye } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/lib/i18n/language-context"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
 
 const projects = [
   {
@@ -93,12 +101,23 @@ const projects = [
    },
    {
      id:8,
-     title:"E-commerce",
+     title:"Institut Nappylocks",
      description: "Application de boutique en ligne et de gestion des salons.",
      image:"/nappy.png",
      technologies: ["Next.js", "Node.js", "Tailwind CSS", "Real-time"],
      category: "Full Stack",
      liveUrl: "https://www.institutnappylocks.com/",
+     githubUrl: "#",
+     featured: true,
+   },
+   {
+     id:9,
+     title:"Elyva-tech",
+     description: "site web pour une société de services techniques.",
+     image:"/elyva.png",
+     technologies: ["Next.js", "Node.js", "Tailwind CSS", "Real-time"],
+     category: "Full Stack",
+     liveUrl: "https://www.elyva-tech.com/",
      githubUrl: "#",
      featured: true,
    },
@@ -123,65 +142,97 @@ export function Projects() {
           </div>
 
           {/* Featured Projects */}
-          <div className="mb-16">
+          <div className="mb-20">
             <h3 className="font-heading font-semibold text-2xl text-foreground mb-8 text-center">Projets Phares</h3>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {projects
+
+            <Carousel
+              plugins={[
+                Autoplay({
+                  delay: 6000,
+                  stopOnInteraction: true,
+                  stopOnMouseEnter: true,
+                }),
+              ]}
+              opts={{
+                align: "center",     // centre la carte active
+                loop: true,
+                // dragFree: true,   // défilement plus fluide (optionnel)
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-2 md:-ml-4">
+                {projects
                 .filter((project) => project.featured)
-                .map((project) => (
-                  <Card
+                .map((project) =>(
+                  <CarouselItem
                     key={project.id}
-                    className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group"
+                    className="pl-2 md:pl-4 basis-full md:basis-4/5 lg:basis-3/5 xl:basis-1/2 2xl:basis-2/5"
                   >
-                    <div className="relative overflow-hidden">
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={project.title}
-                        width={600}
-                        height={400}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                        <Button size="sm" variant="secondary" asChild>
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                            <Eye className="w-4 h-4 mr-2" />
-                            Voir
-                          </a>
-                        </Button>
-                        <Button size="sm" variant="outline" asChild>
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                            <Github className="w-4 h-4 mr-2" />
-                            Code
-                          </a>
-                        </Button>
-                      </div>
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between mb-3">
-                        <Badge variant="secondary" className="text-xs">
-                          {project.category}
-                        </Badge>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="ghost" asChild>
+                    <Card
+                      className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group h-full"
+                    >
+                      <div className="relative overflow-hidden">
+                        <Image
+                          src={project.image || "/placeholder.svg"}
+                          alt={project.title}
+                          width={600}
+                          height={400}
+                          className="w-full aspect-[4/3] sm:aspect-[5/3] object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 gap-4">
+                          <Button size="lg" variant="secondary" asChild className="shadow-lg">
                             <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="w-4 h-4" />
+                              <Eye className="w-5 h-5 mr-2" />
+                              Voir le projet
+                            </a>
+                          </Button>
+                          {project.githubUrl !== "#" && (
+                            <Button size="lg" variant="outline" asChild className="bg-background/40 backdrop-blur-sm">
+                              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <Github className="w-5 h-5 mr-2" />
+                                Code source
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+
+                      <CardContent className="p-6 sm:p-8">
+                        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                          <Badge variant="secondary" className="text-sm px-3 py-1">
+                            {project.category}
+                          </Badge>
+                          <Button size="icon" variant="ghost" asChild>
+                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="w-5 h-5" />
                             </a>
                           </Button>
                         </div>
-                      </div>
-                      <h4 className="font-heading font-semibold text-xl text-foreground mb-3">{project.title}</h4>
-                      <p className="text-muted-foreground mb-4 leading-relaxed">{project.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.map((tech, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+
+                        <h4 className="font-heading font-bold text-2xl sm:text-3xl text-foreground mb-4">
+                          {project.title}
+                        </h4>
+
+                        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-6">
+                          {project.description}
+                        </p>
+
+                        <div className="flex flex-wrap gap-2">
+                          {project.technologies.map((tech, index) => (
+                            <Badge key={index} variant="outline" className="text-sm px-3 py-1">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
                 ))}
-            </div>
+              </CarouselContent>
+
+              <CarouselPrevious className="-left-2 sm:-left-6 md:-left-10 bg-background/80 hover:bg-background border shadow-lg" />
+              <CarouselNext className="-right-2 sm:-right-6 md:-right-10 bg-background/80 hover:bg-background border shadow-lg" />
+            </Carousel>
           </div>
 
           {/* All Projects */}
