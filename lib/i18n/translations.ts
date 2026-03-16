@@ -11,9 +11,9 @@ export const translations = {
     hero: {
       greeting: "Salut, je suis",
       name: "LEONIE GONDO",
-      title: "Développeuse Full-stack & Mobile",
+      title: "AI Augmented Full Stack Developer",
       description:
-        "Passionnée par le développement web et mobile, je conçois des applications modernes, performantes et intuitives en mettant l'expérience utilisateur au cœur de mes réalisations. Mon expertise couvre aussi bien le frontend que le backend, me permettant de développer des solutions complètes et optimisées.",
+        "Développeuse Full-Stack augmentée par l'IA, je conçois des applications modernes en combinant expertise technique et outils d'intelligence artificielle (Claude, Cursor, Copilot). Je crée des solutions plus rapides, plus intelligentes et plus performantes grâce à l'IA.",
       contactBtn: "Me contacter",
       projectsBtn: "Voir mes projets",
       scrollText: "Découvrez mon parcours",
@@ -22,17 +22,17 @@ export const translations = {
       title: "À propos de moi",
       subtitle: "Découvrez mon parcours, mes valeurs et ce qui me motive dans le développement web et mobile.",
       heading: "Passionnée par",
-      headingAccent: "le développement web et mobile",
+      headingAccent: "le développement IA & Full Stack",
       paragraph1:
-        "Toujours en quête d'innovation, j'adopte les meilleures pratiques et explore continuellement de nouvelles technologies afin de concevoir des solutions performantes, évolutives et adaptées aux besoins des utilisateurs.",
+        "Développeuse Full-Stack augmentée par l'IA, j'utilise des outils comme Claude AI, Cursor, GitHub Copilot et des APIs d'intelligence artificielle pour concevoir des solutions plus rapides, plus intelligentes et plus innovantes.",
       paragraph2:
-        "Mon objectif ? Développer des applications à la fois intuitives, ergonomiques et efficaces, en alliant optimisation technique et expérience utilisateur exceptionnelle.",
+        "Mon objectif ? Combiner expertise technique et puissance de l'IA pour livrer des applications intuitives, performantes et à forte valeur ajoutée — du prototype à la mise en production.",
       paragraph3:
-        "En plus de mes compétences techniques, je possède une forte capacité d'adaptation et une grande curiosité intellectuelle, ce qui me permet de m'immerger rapidement dans de nouveaux environnements technologiques.",
+        "Toujours en veille technologique, j'intègre continuellement de nouveaux outils IA dans mon workflow pour rester à la pointe et offrir des solutions différenciantes à mes clients.",
       interestsTitle: "Centres d'intérêt",
       interests: [
         "Intelligence Artificielle",
-        "Apprentissage Automatique",
+        "LLMs & Prompt Engineering",
         "Musique & Cinéma",
         "Innovation Technologique",
       ],
@@ -55,7 +55,7 @@ export const translations = {
       },
       objectiveTitle: "Mon Objectif",
       objective:
-        "Je suis déterminée à continuer à apprendre et à travailler sur des projets innovants, en développant des solutions intuitives et efficaces. Curieuse, rigoureuse et passionnée, je suis prête à relever de nouveaux défis et à collaborer sur des projets ambitieux pour créer des produits à forte valeur ajoutée.",
+        "Je suis déterminée à rester à la pointe du développement IA Augmented, en combinant maîtrise technique et outils d'intelligence artificielle pour créer des produits innovants. Curieuse, rigoureuse et passionnée, je suis prête à collaborer sur des projets ambitieux qui exploitent le meilleur de l'IA et du développement Full-Stack.",
       personalNote:
         "Passionné(e) par l'informatique depuis mon jeune âge, ce domaine m'a appris rigueur et créativité.",
     },
@@ -65,6 +65,7 @@ export const translations = {
         "Toujours en quête d'innovation, je veille à adopter les meilleures pratiques et à explorer de nouvelles technologies pour offrir des solutions performantes et évolutives.",
       categories: {
         frontend: "Frontend",
+        ia: "IA & AI Tools",
         mobile: "Mobile",
         backend: "Backend",
         tools: "Outils",
@@ -106,11 +107,11 @@ export const translations = {
         email: "Email",
         message: "Message",
         consent: "J'accepte que mes données personnelles soient utilisées pour me recontacter concernant ma demande.",
-        required: "Champs obligatoires. Vos données sont traitées de manière confidentielle.",
+        requiredNote: "Champs obligatoires. Vos données sont traitées de manière confidentielle.",
         submit: "Envoyer le message",
-        sending: "Envoi en cours...",
-        sent: "Message envoyé !",
-        retry: "Réessayer",
+        submitting: "Envoi en cours...",
+        success: "Message envoyé !",
+        messagePlaceholder: "Décrivez votre projet ou vos besoins...",
         errors: {
           firstNameRequired: "Le prénom est requis",
           lastNameRequired: "Le nom est requis",
@@ -119,14 +120,6 @@ export const translations = {
           messageRequired: "Le message est requis",
           messageMinLength: "Le message doit contenir au moins 10 caractères",
           consentRequired: "Vous devez accepter le traitement de vos données",
-        },
-        success: {
-          title: "Message envoyé !",
-          description: "Merci pour votre message. Je vous répondrai dans les plus brefs délais.",
-        },
-        error: {
-          title: "Erreur",
-          description: "Une erreur est survenue lors de l'envoi. Veuillez réessayer.",
         },
       },
     },
@@ -143,9 +136,9 @@ export const translations = {
     hero: {
       greeting: "Hi, I'm",
       name: "LEONIE GONDO",
-      title: "Full-stack & Mobile Developer",
+      title: "AI Augmented Full Stack Developer",
       description:
-        "Passionate about Full-Stack and mobile development, I design modern, high-performance, and intuitive applications with user experience at the heart of my work. My expertise spans both frontend and backend, enabling me to develop complete and optimized solutions.",
+        "AI Augmented Full Stack Developer — I build modern applications by combining technical expertise with AI tools (Claude, Cursor, Copilot). I deliver faster, smarter, and more powerful solutions by leveraging the full potential of artificial intelligence.",
       contactBtn: "Contact me",
       projectsBtn: "View my projects",
       scrollText: "Discover my journey",
@@ -154,15 +147,15 @@ export const translations = {
       title: "About Me",
       subtitle: "Discover my background, values, and what drives me in web and mobile development.",
       heading: "Passionate about",
-      headingAccent: "web and mobile development",
+      headingAccent: "AI-Augmented Full Stack development",
       paragraph1:
-        "Always seeking innovation, I adopt best practices and continuously explore new technologies to design high-performance, scalable solutions tailored to user needs.",
+        "AI Augmented Full Stack Developer, I leverage tools like Claude AI, Cursor, GitHub Copilot and AI APIs to build smarter, faster and more innovative solutions.",
       paragraph2:
-        "My goal? To develop applications that are intuitive, ergonomic, and efficient, combining technical optimization with exceptional user experience.",
+        "My goal? Combine technical expertise with the power of AI to deliver intuitive, high-performance applications with real added value — from prototype to production.",
       paragraph3:
-        "In addition to my technical skills, I have strong adaptability and intellectual curiosity, allowing me to quickly immerse myself in new technological environments.",
+        "Always staying on the cutting edge, I continuously integrate new AI tools into my workflow to offer differentiated and future-proof solutions.",
       interestsTitle: "Interests",
-      interests: ["Artificial Intelligence", "Machine Learning", "Music & Cinema", "Technological Innovation"],
+      interests: ["Artificial Intelligence", "LLMs & Prompt Engineering", "Music & Cinema", "Technological Innovation"],
       values: {
         adaptability: {
           title: "Adaptability",
@@ -181,7 +174,7 @@ export const translations = {
       },
       objectiveTitle: "My Objective",
       objective:
-        "I am determined to continue learning and working on innovative projects, developing intuitive and efficient solutions. Curious, rigorous, and passionate, I am ready to take on new challenges and collaborate on ambitious projects to create high-value products.",
+        "I am determined to stay at the forefront of AI Augmented development, combining technical mastery and artificial intelligence tools to create innovative products. Curious, rigorous, and passionate, I am ready to collaborate on ambitious projects that harness the best of AI and Full-Stack development.",
       personalNote:
         "Passionate about computer science from a young age, this field has taught me rigor and creativity.",
     },
@@ -191,6 +184,7 @@ export const translations = {
         "Always seeking innovation, I ensure to adopt best practices and explore new technologies to deliver high-performance and scalable solutions.",
       categories: {
         frontend: "Frontend",
+        ia: "AI & AI Tools",
         mobile: "Mobile",
         backend: "Backend",
         tools: "Tools",
@@ -232,11 +226,11 @@ export const translations = {
         email: "Email",
         message: "Message",
         consent: "I agree that my personal data will be used to contact me regarding my request.",
-        required: "Required fields. Your data is processed confidentially.",
+        requiredNote: "Required fields. Your data is processed confidentially.",
         submit: "Send message",
-        sending: "Sending...",
-        sent: "Message sent!",
-        retry: "Retry",
+        submitting: "Sending...",
+        success: "Message sent!",
+        messagePlaceholder: "Describe your project or needs...",
         errors: {
           firstNameRequired: "First name is required",
           lastNameRequired: "Last name is required",
@@ -245,14 +239,6 @@ export const translations = {
           messageRequired: "Message is required",
           messageMinLength: "Message must contain at least 10 characters",
           consentRequired: "You must accept the processing of your data",
-        },
-        success: {
-          title: "Message sent!",
-          description: "Thank you for your message. I will respond to you as soon as possible.",
-        },
-        error: {
-          title: "Error",
-          description: "An error occurred while sending. Please try again.",
         },
       },
     },

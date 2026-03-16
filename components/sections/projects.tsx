@@ -1,319 +1,327 @@
-
 "use client"
+
+// ============================================
+// SECTION PROJECTS - Projets réalisés
+// Carousel pour les projets phares + grille
+// Design pro, bilingue FR/EN, animations
+// ============================================
+
+import { useRef, useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ExternalLink, Github, Eye } from "lucide-react"
+import { ExternalLink, Github, Eye, Sparkles, Layers } from "lucide-react"
 import Image from "next/image"
 import { useLanguage } from "@/lib/i18n/language-context"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 
-const projects = [
+// Composant d'animation au scroll sans framer-motion
+function AnimerAuScroll({ children, className = "", delai = 0 }: { children: React.ReactNode, className?: string, delai?: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const el = ref.current; if (!el) return
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setTimeout(() => setVisible(true), delai); obs.unobserve(el) } }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" })
+    obs.observe(el); return () => obs.disconnect()
+  }, [delai])
+  return <div ref={ref} className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-[0.98]"} ${className}`}>{children}</div>
+}
+
+// Données bilingues des projets
+const PROJETS = [
   {
     id: 1,
-    title: "Site pour Restaurant Africain",
-    description:
-      "Site web moderne pour un restaurant africain avec menu interactif, système de réservation et présentation des spécialités culinaires.",
+    titleFr: "Site pour Restaurant Africain",
+    titleEn: "African Restaurant Website",
+    descFr: "Site web moderne pour un restaurant africain avec menu interactif, système de réservation et présentation des spécialités culinaires.",
+    descEn: "Modern website for an African restaurant with interactive menu, reservation system and presentation of culinary specialties.",
     image: "/pro1.png",
-    technologies: ["HTML5", "CSS3", "JavaScript", "Responsive Design"],
-    category: "Web Development",
+    technologies: ["HTML5", "CSS3", "JavaScript", "Responsive"],
+    category: "Web Dev",
     liveUrl: "#",
     githubUrl: "#",
-    featured: true,
+    enVedette: true,
   },
   {
     id: 2,
-    title: "Plateforme Atelier",
-    description:
-      "Application web pour la gestion d'ateliers créatifs avec inscription en ligne, planning des sessions et suivi des participants.",
+    titleFr: "Plateforme Atelier",
+    titleEn: "Workshop Platform",
+    descFr: "Application web pour la gestion d'ateliers créatifs avec inscription en ligne, planning des sessions et suivi des participants.",
+    descEn: "Web application for managing creative workshops with online registration, session planning and participant tracking.",
     image: "/pro7.png",
     technologies: ["React", "Node.js", "MongoDB", "Express"],
     category: "Full Stack",
     liveUrl: "#",
     githubUrl: "#",
-    featured: false,
+    enVedette: false,
   },
   {
     id: 3,
-    title: "Site Événementiel",
-    description:
-      "Plateforme complète pour la gestion d'événements avec billetterie en ligne, gestion des participants et tableau de bord administrateur.",
+    titleFr: "Site Événementiel",
+    titleEn: "Event Website",
+    descFr: "Plateforme complète pour la gestion d'événements avec billetterie en ligne et tableau de bord administrateur.",
+    descEn: "Complete platform for event management with online ticketing and admin dashboard.",
     image: "/event.PNG",
-    technologies: ["React", "Firebase", "Tailwind CSS", "Authentication"],
-    category: "Web Application",
+    technologies: ["React", "Firebase", "Tailwind CSS", "Auth"],
+    category: "Web App",
     liveUrl: "https://frontend-login-rho.vercel.app/",
     githubUrl: "#",
-    featured: true,
+    enVedette: true,
   },
   {
     id: 4,
-    title: "Site de Voyage",
-    description:
-      "Site web responsive pour une agence de voyage avec galerie de destinations, système de réservation et guides touristiques interactifs.",
+    titleFr: "Site de Voyage",
+    titleEn: "Travel Website",
+    descFr: "Site web responsive pour une agence de voyage avec galerie de destinations et guides touristiques interactifs.",
+    descEn: "Responsive website for a travel agency with destination gallery and interactive travel guides.",
     image: "/pro4.png",
     technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
-    category: "Web Development",
+    category: "Web Dev",
     liveUrl: "https://leoniegondo225.github.io/Newpagerestovoage/voyage.html",
     githubUrl: "#",
-    featured: false,
+    enVedette: false,
   },
   {
     id: 5,
-    title: "Site Restaurant Moderne",
-    description:
-      "Site web élégant pour restaurant avec menu numérique, système de commande en ligne et intégration des réseaux sociaux.",
+    titleFr: "Site Restaurant Moderne",
+    titleEn: "Modern Restaurant Site",
+    descFr: "Site élégant pour restaurant avec menu numérique et intégration des réseaux sociaux.",
+    descEn: "Elegant restaurant site with digital menu and social media integration.",
     image: "/pro5.png",
-    technologies: ["React", "Tailwind CSS", "API Integration"],
-    category: "Web Development",
+    technologies: ["React", "Tailwind CSS", "API"],
+    category: "Web Dev",
     liveUrl: "https://leoniegondo225.github.io/Newpagerestovoage/",
     githubUrl: "#",
-    featured: false,
+    enVedette: false,
   },
   {
     id: 6,
-    title: "Restaurant Premium",
-    description:
-      "Application web haut de gamme pour restaurant avec réservations en temps réel, menu interactif et système de fidélité client.",
-    image: "/pro4.png",
-    technologies: ["React", "Node.js", "Tailwind CSS", "Real-time"],
+    titleFr: "Audite Assurance",
+    titleEn: "Insurance Audit",
+    descFr: "Application de gestion d'assurance pour auditeurs professionnels.",
+    descEn: "Insurance management application for professional auditors.",
+    image: "/crystal.png",
+    technologies: ["Next.js", "Node.js", "Tailwind CSS"],
     category: "Full Stack",
-    liveUrl: "https://leoniegondo225.github.io/ateliertailwind",
+    liveUrl: "https://crystal03.vercel.app/",
     githubUrl: "#",
-    featured: true,
+    enVedette: true,
   },
-   {
-     id:7,
-     title:"Audite Assurance",
-     description: "Application de gestion d'assurance pour auditeurs.",
-     image:"/crystal.png",
-     technologies: ["Next.js", "Node.js", "Tailwind CSS", "Real-time"],
-     category: "Full Stack",
-     liveUrl: "https://crystal03.vercel.app/",
-     githubUrl: "#",
-     featured: true,
-   },
-   {
-     id:8,
-     title:"Institut Nappylocks",
-     description: "Application de boutique en ligne et de gestion des salons.",
-     image:"/nappy.png",
-     technologies: ["Next.js", "Node.js", "Tailwind CSS", "Real-time"],
-     category: "Full Stack",
-     liveUrl: "https://www.institutnappylocks.com/",
-     githubUrl: "#",
-     featured: true,
-   },
-   {
-     id:9,
-     title:"Elyva-tech",
-     description: "site web pour une société de services techniques.",
-     image:"/elyva.png",
-     technologies: ["Next.js", "Node.js", "Tailwind CSS", "Real-time"],
-     category: "Full Stack",
-     liveUrl: "https://www.elyva-tech.com/",
-     githubUrl: "#",
-     featured: true,
-   },
+  {
+    id: 7,
+    titleFr: "Institut Nappylocks",
+    titleEn: "Nappylocks Institute",
+    descFr: "Application de boutique en ligne et de gestion des salons de coiffure.",
+    descEn: "Online shop and hair salon management application.",
+    image: "/nappy.png",
+    technologies: ["Next.js", "Node.js", "Tailwind CSS"],
+    category: "Full Stack",
+    liveUrl: "https://www.institutnappylocks.com/",
+    githubUrl: "#",
+    enVedette: true,
+  },
+  {
+    id: 8,
+    titleFr: "Elyva-tech",
+    titleEn: "Elyva-tech",
+    descFr: "Site web pour une société de services techniques.",
+    descEn: "Website for a technical services company.",
+    image: "/elyva.png",
+    technologies: ["Next.js", "Node.js", "Tailwind CSS"],
+    category: "Full Stack",
+    liveUrl: "https://www.elyva-tech.com/",
+    githubUrl: "#",
+    enVedette: true,
+  },
 ]
 
-const categories = ["Tous", "Web Development", "Full Stack", "Web Application"]
+// Variantes supprimées - utilise AnimerAuScroll à la place
 
 export function Projects() {
   const { t, language } = useLanguage()
-  return (
-    <section id="projets" className="py-20 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="font-heading font-bold text-3xl sm:text-4xl text-foreground mb-4">Mes Créations</h2>
-            <div className="w-24 h-1 bg-accent mx-auto mb-6"></div>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Découvrez une sélection de mes projets récents, alliant créativité, performance technique et expérience
-              utilisateur optimale.
-            </p>
-          </div>
+  console.log("✅ Composant Projects rendu, langue :", language)
 
-          {/* Featured Projects */}
-          <div className="mb-20">
-            <h3 className="font-heading font-semibold text-2xl text-foreground mb-8 text-center">Projets Phares</h3>
+  // Séparer les projets en vedette et les autres
+  const projetsEnVedette = PROJETS.filter((p) => p.enVedette)
+  const autresProjets = PROJETS.filter((p) => !p.enVedette)
+
+  return (
+    <section id="projets" className="relative py-32 bg-background overflow-hidden">
+      {/* Décoration */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/4 rounded-full blur-[150px] -mr-96 -mt-96 pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto">
+
+          {/* EN-TÊTE */}
+          <AnimerAuScroll className="text-center mb-20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 bg-primary/8 text-primary text-xs font-bold uppercase tracking-widest mb-6">
+              <Layers className="w-3 h-3" />
+              <span>Portfolio</span>
+            </div>
+            <h2 className="font-black text-4xl sm:text-5xl lg:text-6xl text-foreground mb-6 tracking-tight">
+              {t.projects.title.split(" ")[0]}{" "}
+              <span className="text-gradient">{t.projects.title.split(" ").slice(1).join(" ")}</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              {t.projects.subtitle}
+            </p>
+          </AnimerAuScroll>
+
+          {/* CAROUSEL */}
+          <AnimerAuScroll className="mb-28">
+            {/* Titre de section */}
+            <div className="flex items-center gap-4 mb-10">
+              <div className="h-px bg-border flex-grow" />
+              <h3 className="font-black text-xs uppercase tracking-[0.3em] text-primary/70">{t.projects.featuredTitle}</h3>
+              <div className="h-px bg-border flex-grow" />
+            </div>
 
             <Carousel
-              plugins={[
-                Autoplay({
-                  delay: 6000,
-                  stopOnInteraction: true,
-                  stopOnMouseEnter: true,
-                }),
-              ]}
-              opts={{
-                align: "center",     // centre la carte active
-                loop: true,
-                // dragFree: true,   // défilement plus fluide (optionnel)
-              }}
+              plugins={[Autoplay({ delay: 5500, stopOnInteraction: true })]}
+              opts={{ align: "center", loop: true }}
               className="w-full"
             >
-              <CarouselContent className="-ml-2 md:-ml-4">
-                {projects
-                .filter((project) => project.featured)
-                .map((project) =>(
-                  <CarouselItem
-                    key={project.id}
-                    className="pl-2 md:pl-4 basis-full md:basis-4/5 lg:basis-3/5 xl:basis-1/2 2xl:basis-2/5"
-                  >
-                    <Card
-                      className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden group h-full"
-                    >
-                      <div className="relative overflow-hidden">
-                        <Image
-                          src={project.image || "/placeholder.svg"}
-                          alt={project.title}
-                          width={600}
-                          height={400}
-                          className="w-full aspect-[4/3] sm:aspect-[5/3] object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-8 gap-4">
-                          <Button size="lg" variant="secondary" asChild className="shadow-lg">
-                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <Eye className="w-5 h-5 mr-2" />
-                              Voir le projet
-                            </a>
-                          </Button>
-                          {project.githubUrl !== "#" && (
-                            <Button size="lg" variant="outline" asChild className="bg-background/40 backdrop-blur-sm">
-                              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                                <Github className="w-5 h-5 mr-2" />
-                                Code source
-                              </a>
-                            </Button>
-                          )}
+              <CarouselContent className="-ml-4 md:-ml-8">
+                {projetsEnVedette.map((projet) => {
+                  // Choisir titre et description selon la langue
+                  const titre = language === "fr" ? projet.titleFr : projet.titleEn
+                  const description = language === "fr" ? projet.descFr : projet.descEn
+                  return (
+                    <CarouselItem key={projet.id} className="pl-4 md:pl-8 basis-full md:basis-[80%] lg:basis-[70%]">
+                      <Card className="border border-border/40 bg-card/80 backdrop-blur-sm overflow-hidden group shadow-2xl hover:shadow-primary/10 transition-all duration-500">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 h-full">
+                          {/* Image */}
+                          <div className="lg:col-span-7 relative h-[280px] sm:h-[360px] lg:h-[420px] overflow-hidden">
+                            <Image src={projet.image || "/placeholder.svg"} alt={titre} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent lg:bg-gradient-to-r" />
+                            <div className="absolute top-5 left-5">
+                              <Badge className="bg-primary/90 text-primary-foreground backdrop-blur-sm px-3 py-1 rounded-xl border-none text-xs font-bold">
+                                {projet.category}
+                              </Badge>
+                            </div>
+                          </div>
+                          {/* Contenu */}
+                          <div className="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-center">
+                            <h4 className="font-black text-2xl sm:text-3xl text-foreground mb-4 leading-tight">{titre}</h4>
+                            <p className="text-muted-foreground leading-relaxed mb-7 line-clamp-3 text-sm">{description}</p>
+                            <div className="flex flex-wrap gap-2 mb-8">
+                              {projet.technologies.map((tech, i) => (
+                                <Badge key={i} variant="secondary" className="text-xs px-3 py-1 border-none bg-secondary/50">{tech}</Badge>
+                              ))}
+                            </div>
+                            <div className="flex gap-3 flex-wrap">
+                              <Button size="sm" className="rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20 group/btn" asChild>
+                                <a href={projet.liveUrl} target="_blank" rel="noopener noreferrer">
+                                  <Eye className="w-4 h-4 mr-2 group-hover/btn:scale-110 transition-transform" />
+                                  {t.projects.viewBtn}
+                                </a>
+                              </Button>
+                              <Button variant="outline" size="sm" className="rounded-xl border-border/60 hover:border-primary/40" asChild>
+                                <a href={projet.githubUrl} target="_blank" rel="noopener noreferrer">
+                                  <Github className="w-4 h-4 mr-2" />
+                                  {t.projects.codeBtn}
+                                </a>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
+                    </CarouselItem>
+                  )
+                })}
+              </CarouselContent>
+              <div className="flex items-center justify-center gap-4 mt-10">
+                <CarouselPrevious className="static translate-y-0 h-12 w-12 rounded-2xl border-border/60 hover:border-primary/40 hover:bg-primary/5 shadow-lg" />
+                <CarouselNext className="static translate-y-0 h-12 w-12 rounded-2xl border-border/60 hover:border-primary/40 hover:bg-primary/5 shadow-lg" />
+              </div>
+            </Carousel>
+          </AnimerAuScroll>
+
+          {/* GRILLE - Autres projets */}
+          <div>
+            <div className="flex items-center gap-4 mb-12">
+              <h3 className="font-black text-xs uppercase tracking-[0.3em] text-muted-foreground/50 whitespace-nowrap">{t.projects.otherTitle}</h3>
+              <div className="h-px bg-border flex-grow" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {autresProjets.map((projet, idx) => {
+                const titre = language === "fr" ? projet.titleFr : projet.titleEn
+                const description = language === "fr" ? projet.descFr : projet.descEn
+                return (
+                  <AnimerAuScroll key={projet.id} delai={idx * 80}>
+                    <Card className="h-full flex flex-col border border-border/40 bg-card/60 backdrop-blur-sm hover:border-primary/25 hover:shadow-lg hover:shadow-primary/8 hover:-translate-y-1 transition-all duration-400">
+                      {/* Image */}
+                      <div className="relative h-52 overflow-hidden">
+                        <Image src={projet.image || "/placeholder.svg"} alt={titre} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div className="absolute top-3 right-3">
+                          <Badge className="bg-background/85 backdrop-blur-sm text-foreground border-none px-3 py-1 rounded-lg text-xs font-semibold">
+                            {projet.category}
+                          </Badge>
                         </div>
                       </div>
-
-                      <CardContent className="p-6 sm:p-8">
-                        <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                          <Badge variant="secondary" className="text-sm px-3 py-1">
-                            {project.category}
-                          </Badge>
-                          <Button size="icon" variant="ghost" asChild>
-                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                              <ExternalLink className="w-5 h-5" />
+                      {/* Contenu */}
+                      <CardContent className="p-6 flex flex-col flex-grow space-y-4">
+                        <h4 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">{titre}</h4>
+                        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2 flex-grow">{description}</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {projet.technologies.slice(0, 3).map((tech, i) => (
+                            <Badge key={i} variant="secondary" className="text-[10px] px-2 py-0.5 border-none bg-secondary/40">{tech}</Badge>
+                          ))}
+                        </div>
+                        <div className="flex gap-2 pt-1">
+                          <Button size="sm" className="flex-1 rounded-xl bg-primary hover:bg-primary/90 text-xs h-9 shadow-md shadow-primary/15" asChild>
+                            <a href={projet.liveUrl} target="_blank" rel="noopener noreferrer">
+                              <Eye className="w-3.5 h-3.5 mr-1.5" />{t.projects.viewBtn}
                             </a>
                           </Button>
-                        </div>
-
-                        <h4 className="font-heading font-bold text-2xl sm:text-3xl text-foreground mb-4">
-                          {project.title}
-                        </h4>
-
-                        <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-6">
-                          {project.description}
-                        </p>
-
-                        <div className="flex flex-wrap gap-2">
-                          {project.technologies.map((tech, index) => (
-                            <Badge key={index} variant="outline" className="text-sm px-3 py-1">
-                              {tech}
-                            </Badge>
-                          ))}
+                          <Button size="sm" variant="outline" className="rounded-xl border-border/60 hover:border-primary/40 h-9 px-3" asChild>
+                            <a href={projet.githubUrl} target="_blank" rel="noopener noreferrer">
+                              <Github className="w-3.5 h-3.5" />
+                            </a>
+                          </Button>
                         </div>
                       </CardContent>
                     </Card>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-
-              <CarouselPrevious className="-left-2 sm:-left-6 md:-left-10 bg-background/80 hover:bg-background border shadow-lg" />
-              <CarouselNext className="-right-2 sm:-right-6 md:-right-10 bg-background/80 hover:bg-background border shadow-lg" />
-            </Carousel>
-          </div>
-
-          {/* All Projects */}
-          <div>
-            <h3 className="font-heading font-semibold text-2xl text-foreground mb-8 text-center">Autres Projets</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {projects
-                .filter((project) => !project.featured)
-                .map((project) => (
-                  <Card
-                    key={project.id}
-                    className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
-                  >
-                    <div className="relative overflow-hidden">
-                      <Image
-                        src={project.image || "/placeholder.svg"}
-                        alt={project.title}
-                        width={400}
-                        height={250}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute top-4 right-4">
-                        <Badge variant="secondary" className="text-xs bg-background/90">
-                          {project.category}
-                        </Badge>
-                      </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <h4 className="font-heading font-semibold text-lg text-foreground mb-2">{project.title}</h4>
-                      <p className="text-muted-foreground text-sm mb-3 leading-relaxed">{project.description}</p>
-                      <div className="flex flex-wrap gap-1 mb-4">
-                        {project.technologies.slice(0, 3).map((tech, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {tech}
-                          </Badge>
-                        ))}
-                        {project.technologies.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{project.technologies.length - 3}
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="flex-1 bg-transparent" asChild>
-                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                            <Eye className="w-3 h-3 mr-1" />
-                            Voir
-                          </a>
-                        </Button>
-                        <Button size="sm" variant="ghost" asChild>
-                          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                            <Github className="w-3 h-3" />
-                          </a>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                  </AnimerAuScroll>
+                )
+              })}
             </div>
           </div>
 
-          {/* CTA */}
-          <div className="text-center mt-16">
-            <Card className="border-0 shadow-lg bg-gradient-to-r from-accent/5 to-secondary/5">
-              <CardContent className="p-8">
-                <h3 className="font-heading font-semibold text-2xl text-foreground mb-4">
-                  Vous avez un projet en tête ?
-                </h3>
-                <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                  Collaborons ensemble pour donner vie à vos idées et créer des solutions innovantes qui dépassent vos
-                  attentes.
-                </p>
-                <Button size="lg" asChild>
-                  <a href="#contact">
-                    Discutons de votre projet
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+          {/* BANDEAU CTA */}
+          <AnimerAuScroll delai={100} className="mt-24">
+            <div className="relative group">
+              {/* Bordure lumineuse */}
+              <div className="absolute -inset-px bg-gradient-to-r from-primary/40 via-violet-500/40 to-primary/40 rounded-3xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <Card className="relative border border-primary/15 bg-gradient-to-br from-primary/5 to-violet-500/5 rounded-3xl overflow-hidden">
+                <CardContent className="p-12 sm:p-16 text-center space-y-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest border border-primary/20">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Collaboration</span>
+                  </div>
+                  <h3 className="font-black text-3xl sm:text-4xl lg:text-5xl text-foreground tracking-tight max-w-3xl mx-auto">
+                    {t.projects.ctaTitle}
+                  </h3>
+                  <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
+                    {t.projects.ctaDescription}
+                  </p>
+                  <Button
+                    size="lg"
+                    className="h-14 px-10 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-2xl shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 group/btn"
+                    asChild
+                  >
+                    <a href="#contact">
+                      {t.projects.ctaButton}
+                      <ExternalLink className="w-4 h-4 ml-2.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                    </a>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </AnimerAuScroll>
+
         </div>
       </div>
     </section>

@@ -1,100 +1,47 @@
+// ============================================
+// LAYOUT PRINCIPAL - Configuration de l'app
+// ThemeProvider pour dark/light mode
+// Polices Google Fonts + métadonnées SEO
+// ============================================
+
 import type React from "react"
 import type { Metadata } from "next"
-import { DM_Sans, Space_Grotesk } from "next/font/google"
+import { Inter } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
-import { LanguageProvider } from "@/lib/i18n/language-context"
+import { ThemeProvider } from "@/components/theme-provider"
 
-const dmSans = DM_Sans({
+// Police Inter - moderne et lisible
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-dm-sans",
-})
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-space-grotesk",
+  variable: "--font-inter",
 })
 
 export const metadata: Metadata = {
   title: {
-    default: "Leonie Gondo - Développeuse Web & Mobile",
+    default: "Leonie Gondo — Développeuse Full Stack & Mobile",
     template: "%s | Leonie Gondo",
   },
   description:
-    "Portfolio professionnel de Leonie Gondo, développeuse web et mobile passionnée par la création d'applications modernes et performantes. Spécialisée en React, React Native, Node.js et technologies web modernes.",
+    "Portfolio professionnel de Léonie Gondo, développeuse Full Stack et Mobile. Spécialisée React, Next.js, Node.js, React Native. Basée à Abidjan, Côte d'Ivoire.",
   keywords: [
-    "développeuse web",
-    "développeuse mobile",
-    "React",
-    "React Native",
-    "Node.js",
-    "JavaScript",
-    "TypeScript",
-    "portfolio",
-    "Côte d'Ivoire",
-    "Abidjan",
-    "développement frontend",
-    "développement backend",
-    "applications mobiles",
-    "sites web responsives",
+    "développeuse web", "développeuse mobile", "Full Stack", "React", "Next.js",
+    "React Native", "Node.js", "JavaScript", "TypeScript", "portfolio",
+    "Côte d'Ivoire", "Abidjan", "Léonie Gondo",
   ],
-  authors: [{ name: "Leonie Gondo", url: "https://leonie-gondo.vercel.app" }],
+  authors: [{ name: "Leonie Gondo" }],
   creator: "Leonie Gondo",
-  publisher: "Leonie Gondo",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
   metadataBase: new URL("https://leonie-gondo.vercel.app"),
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
-    title: "Leonie Gondo - Développeuse Web & Mobile",
-    description:
-      "Portfolio professionnel de Leonie Gondo, développeuse web et mobile passionnée par la création d'applications modernes et performantes.",
-    url: "https://leonie-gondo.vercel.app",
+    title: "Leonie Gondo — Développeuse Full Stack & Mobile",
+    description: "Portfolio professionnel de Léonie Gondo, développeuse Full Stack et Mobile.",
     siteName: "Leonie Gondo Portfolio",
     locale: "fr_FR",
     type: "website",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Leonie Gondo - Développeuse Web & Mobile",
-      },
-    ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Leonie Gondo - Développeuse Web & Mobile",
-    description:
-      "Portfolio professionnel de Leonie Gondo, développeuse web et mobile passionnée par la création d'applications modernes et performantes.",
-    images: ["/og-image.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      noimageindex: false,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  verification: {
-    google: "your-google-verification-code",
-  },
-    generator: 'v0.app'
+  robots: { index: true, follow: true },
 }
-
 
 export default function RootLayout({
   children,
@@ -102,21 +49,30 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`${dmSans.variable} ${spaceGrotesk.variable}`}>
+    // suppressHydrationWarning évite l'erreur de classe "dark" côté serveur
+    <html lang="fr" className={inter.variable} suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#6366f1" />
-        <meta name="color-scheme" content="light" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        {/* Couleur de la barre de navigation mobile */}
+        <meta name="theme-color" content="#7c3aed" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#a78bfa" media="(prefers-color-scheme: dark)" />
       </head>
-      <body className="antialiased">
-        <LanguageProvider>
-        {children}
-        <Toaster />
-        </LanguageProvider>
+      <body className="antialiased font-sans">
+        {/*
+          ThemeProvider gère le mode dark/light
+          - attribute="class" : ajoute la classe "dark" sur <html>
+          - defaultTheme="system" : suit les préférences système
+          - enableSystem : permet la détection automatique
+        */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          {children}
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   )
