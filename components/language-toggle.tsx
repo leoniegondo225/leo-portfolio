@@ -36,21 +36,17 @@ export function LanguageToggle() {
         opacity-0 group-hover:opacity-100 transition-opacity duration-300
       " />
 
-      {/* Drapeau emoji */}
-      <span className="text-base relative z-10">
-        {language === "fr" ? "🇫🇷" : "🇬🇧"}
-      </span>
+      {/* Drapeau SVG */}
+      <div className="relative w-5 h-3.5 overflow-hidden rounded-sm shadow-sm z-10">
+        <img
+          src={language === "fr" ? "https://flagcdn.com/w40/fr.png" : "https://flagcdn.com/w40/gb.png"}
+          alt={language === "fr" ? "Français" : "English"}
+          className="object-cover w-full h-full"
+        />
+      </div>
 
-      {/* Langue actuelle */}
-      <span className="relative z-10 tracking-wider">
-        {language === "fr" ? "FR" : "EN"}
-      </span>
-
-      {/* Séparateur */}
-      <span className="relative z-10 text-border/80 font-light">|</span>
-
-      {/* Langue cible (vers laquelle on va basculer) */}
-      <span className="relative z-10 opacity-50 text-xs tracking-wider">
+      {/* Texte de la langue cible */}
+      <span className="relative z-10 font-bold text-xs">
         {language === "fr" ? "EN" : "FR"}
       </span>
     </motion.button>
