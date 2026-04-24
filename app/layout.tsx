@@ -33,12 +33,18 @@ export const metadata: Metadata = {
   authors: [{ name: "Leonie Gondo" }],
   creator: "Leonie Gondo",
   metadataBase: new URL("https://leonie-gondo.vercel.app"),
+  icons: {
+    icon: "/7.jpg",
+    shortcut: "/7.jpg",
+    apple: "/7.jpg",
+  },
   openGraph: {
     title: "Leonie Gondo — Développeuse Full Stack & Mobile",
     description: "Portfolio professionnel de Léonie Gondo, développeuse Full Stack et Mobile.",
     siteName: "Leonie Gondo Portfolio",
     locale: "fr_FR",
     type: "website",
+    images: [{ url: "/7.jpg", width: 800, height: 800, alt: "Léonie Gondo" }],
   },
   robots: { index: true, follow: true },
 }
